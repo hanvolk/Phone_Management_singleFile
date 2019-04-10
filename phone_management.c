@@ -12,7 +12,8 @@ typedef struct __person{
     char memo[MEMO_LEN];
 }person;
 
-person* pList[50];
+person pList[50];
+int perNum=0;
 
 enum {ADD=1, SEARCH=2, DEL=3, SHOWALL=4, END=0};
 
@@ -66,6 +67,10 @@ int ShowMenu(void)
 void addData(void)
 {
     puts("연락처 추가를 시작합니다.");
+    printf("이   름 : ");gets(pList[perNum].name);
+    printf("전화번호 : ");gets(pList[perNum].pNum);
+    printf("메   모 : ");gets(pList[perNum].memo);
+    perNum++;
     clearbuf();
 }
 
@@ -83,6 +88,14 @@ void delData(void)
 
 void ShowAllData(void)
 {
-    puts("전체 연락처를 출력 합니다.");
+    int idx;
+    for(idx=0;idx<perNum;idx++)
+    {
+        printf("┌──────────────────────────────\n");
+        printf("│ ▶ 이   름 : %s \n",pList[idx].name);
+        printf("│ ▶ 전화번호 : %s \n",pList[idx].pNum);
+        printf("│ ▶ 메   모 : %s \n",pList[idx].memo);
+        printf("└─────────────────────────────\n");
+    }
     clearbuf();
 }
