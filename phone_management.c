@@ -78,11 +78,22 @@ void addData(void)
 {
     puts("연락처 추가를 시작합니다.");
     person buf;
-    int ref;
+    int ref=0;
+    int idx=0;
 
     printf("이   름 : ");gets(buf.name);
     printf("전화번호 : ");gets(buf.pNum);
     printf("메   모 : ");gets(buf.memo);
+
+    for(idx=0;idx<perNum;idx++)
+    {
+        if(!strcmp(buf.name,pList[idx].name) && !strcmp(buf.pNum,pList[idx].pNum))
+        {
+            printf("연락처가 이미 존재합니다.");getchar();
+            return;
+         }
+    }
+
 
     printf("연락처를 추가 합니다. (1. 확인, 0.취소) : ");
     scanf("%d",&ref);
@@ -114,15 +125,30 @@ void searchData(void)
 
 void delData(void)
 {
-    int idx;
+    int idx=0,i=0,j=0;
+    int idxMatch[50]={0,};
     char sName[NAME_LEN];
     printf("삭제 할 이름 : ");gets(sName);
 
     for(idx=0;idx<perNum;idx++)
     {
         if(!strcmp(sName,pList[idx].name))
-                    DelPersonData(idx);
+        {
+            idxMatch[i]=idx;
+            i++;
+        }
     }
+    j=i;
+
+    for(idx=0;idx<i;idx++)
+    {
+        printf("No. %d \n",idx+1);
+        ShowPersonData(pList[idxMatch[idx]]);
+    }
+
+    printf("선택 : ");scanf("%d",&idx);clearbuf();
+    DelPersonData(idxMatch[idx-1]);
+
     clearbuf();
 }
 
