@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include<string.h>
+
 
 #define NAME_LEN 10
 #define PHONE_LEN 15
@@ -24,6 +26,9 @@ void addData(void);
 void searchData(void);
 void delData(void);
 void ShowAllData(void);
+
+void ShowPersonData(person ref);
+void DelPersonData(int idx);
 
 void SaveData(void);
 void LoadData(void);
@@ -94,13 +99,30 @@ void addData(void)
 
 void searchData(void)
 {
-    puts("연락처 검색을 시작합니다.");
+    int idx;
+    char sName[NAME_LEN];
+    printf("찾는 이름 : ");gets(sName);
+
+    for(idx=0;idx<perNum;idx++)
+    {
+        if(!strcmp(sName,pList[idx].name))
+                    ShowPersonData(pList[idx]);
+    }
+
     clearbuf();
 }
 
 void delData(void)
 {
-    puts("연락처를 삭제 합니다.");
+    int idx;
+    char sName[NAME_LEN];
+    printf("삭제 할 이름 : ");gets(sName);
+
+    for(idx=0;idx<perNum;idx++)
+    {
+        if(!strcmp(sName,pList[idx].name))
+                    DelPersonData(idx);
+    }
     clearbuf();
 }
 
@@ -117,6 +139,31 @@ void ShowAllData(void)
     }
     clearbuf();
 }
+
+void ShowPersonData(person ref)
+{
+    printf("┌──────────────────────────────\n");
+    printf("│ ▶ 이   름 : %s \n",ref.name);
+    printf("│ ▶ 전화번호 : %s \n",ref.pNum);
+    printf("│ ▶ 메   모 : %s \n",ref.memo);
+    printf("└─────────────────────────────\n");
+}
+
+void DelPersonData(int idx)
+{
+    int i;
+
+    while(idx<perNum)
+    {
+        pList[idx]=pList[idx+1];
+        idx++;
+    }
+
+    perNum--;
+    SaveData();
+    puts("삭제가 완료 되었습니다.");
+}
+
 
 void SaveData(void)
 {
